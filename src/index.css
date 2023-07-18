@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.toast-success {
+  background-color: #3e7440;
+  color: white;
+}
+
+.toast-error {
+  background-color: #5f221d;
+  color: white;
+}
