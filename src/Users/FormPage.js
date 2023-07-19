@@ -2,22 +2,32 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // For redirecting
 import { toast } from 'react-toastify';
+import Select from 'react-select'
 
 const FormPage = () => {
   const [email_address, setEmail] = useState('');
-  const [role, setRole] = useState('');
   const [roles, setRoles] = useState('');
   const [full_name, setFullName] = useState('');
+  const [role_options, setRoleOptions] = useState('');
 
   const navigate = useNavigate(); // For redirecting
 
   const [loading, setLoading] = useState(true);
 
+  const handleRoleChange = (newValue) => {
+    const selectedRoles = Array.from(newValue, (option) => option.value);
+    setRoles(selectedRoles);
+  };
+
   useEffect(() => {
     const fetchRoles = async () => {
       try {
         const response = await axios.get('/roles'); // Replace with your API endpoint URL
-        setRoles(response.data);
+        let roles = []
+        response.data.forEach((role) => {
+            roles.push({value: role.id, label:role.name})
+        })
+        setRoleOptions(roles);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching roles:', error);
@@ -34,7 +44,7 @@ const FormPage = () => {
       // Make API request with axios
       const response = await axios.post('/users', {
         email_address,
-        role,
+        roles,
         full_name,
       });
 
@@ -58,7 +68,7 @@ const FormPage = () => {
     <div className="container">
         <div className="row justify-content-center">
             <div className="col-6">
-                <h3 className="mt-5 mb-3">Form Page</h3>
+                <h3 className="mt-5 mb-3">Add User</h3>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label>Full Name:</label>
@@ -70,16 +80,21 @@ const FormPage = () => {
                     </div>
                     <div className="form-group">
                         <label>Roles:</label>
-                        <select required className="form-control mb-2" onChange={(e) => setRole(e.target.value)}>
+                        <Select className="mb-2" onChange={(newValue) => handleRoleChange(newValue)}
+                            options={role_options}
+                            isMulti
+                            isSearchable
+                        />
+                        {/* <select required className="form-control mb-2" onChange={(e) => setRole(e.target.value)}>
                             <option value="">Select</option>
                             {roles.map((role) => (
                                 <option key={role.id} value={role.id}>
                                     {role.name}
                                 </option>
                             ))}
-                        </select>
+                        </select> */}
                     </div>
-                    <button type="submit" className="btn btn-primary mb-2">Submit</button>
+                    <button type="submit" className="btn btn-primary my-2">Submit</button>
                 </form>
             </div>
         </div>

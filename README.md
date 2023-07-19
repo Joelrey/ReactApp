@@ -1,5 +1,3 @@
-markdown
-Copy code
 # React App
 
 This is a sample React application that demonstrates basic functionality and usage of React.
@@ -8,7 +6,6 @@ This is a sample React application that demonstrates basic functionality and usa
 
 - Feature 1: Display list of users.
 - Feature 2: Create user.
-- ...
 
 ## Getting Started
 
@@ -29,7 +26,7 @@ This is a sample React application that demonstrates basic functionality and usa
 
 3. Setup environment variables in .env 
 
-    REACT_APP_API_URL=put_api_url_here
+    REACT_APP_API_URL=your-api-url
 
 4. Install dependencies
 
